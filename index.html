@@ -12,17 +12,32 @@
     <!-- inject:js -->
     <script src="public/js/main.min.js"></script>
     <!-- endinject -->
-    <header>
-        <h1>Cody Austun Coleman</h1>
-
-    </header>
-    <nav id="nav">
-        <a href="/CV/cody_coleman_cv.pdf">Curriculum Vitae</a>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+			<div class="navbar-header">
+			 	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+			 	</button>
+			  	<a class="navbar-brand" href="#">Cody Austun Coleman</a>
+			</div>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="nav navbar-nav">
+					<li class="active"><a href="#about">About</a></li>
+                    <li><a href="/CV/cody_coleman_cv.pdf">Curriculum Vitae</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
-    <section id="about">
-        <h1>About</h1>
-        <p>I am currently a PhD student at Stanford. My mission in graduate school is to use my passion for computer science to benefit society at large. I am particularly interested in improving education. Recent advances in machine learning have enabled a new wave of intelligent systems. Computers can handle  increasingly complex tasks. As a result, the nature of work is changing. People are performing more diverse and creative tasks. Yet many education systems have not adapted to this increasing diversity. Machine learning could be the key to adaptive education systems that keep up with the future of work. To this end, my research aims at creating intelligent systems that engage wider audiences.</p>
-    </section>
+    <div class="container theme-showcase" role="main">
+    
+		<div id="about" class="page-header">
+			<h2>About</h2>
+            <p>I am currently a PhD student at Stanford. My mission in graduate school is to use my passion for computer science to benefit society at large. I am particularly interested in improving education. Recent advances in machine learning have enabled a new wave of intelligent systems. Computers can handle  increasingly complex tasks. As a result, the nature of work is changing. People are performing more diverse and creative tasks. Yet many education systems have not adapted to this increasing diversity. Machine learning could be the key to adaptive education systems that keep up with the future of work. To this end, my research aims at creating intelligent systems that engage wider audiences.</p>
+		</div>
+    </div>
 
 </body>
 </html>
