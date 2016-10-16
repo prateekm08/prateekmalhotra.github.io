@@ -56,11 +56,20 @@ gulp.task('css', function() {
         .pipe(plugins.inject(injectGlobalFiles, injectGlobalOptions))
         .pipe(plugins.inject(injectAppFiles, injectAppOptions))
         .pipe(plugins.sass())
+        .pipe(plugins.csso())
         .pipe(gulp.dest(config.dest + 'css'));
 });
 
-gulp.task('html', ['css'], function(){
-    var injectFiles = gulp.src([config.dest + 'css/main.css'])
+gulp.task('vendors', function(){
+    return gulp.src(plugins.mainBowerFiles())
+        .pipe(plugins.filter('**/*.css'))
+        .pipe(plugins.concat('vendors.css'))
+        .pipe(plugins.csso())
+        .pipe(gulp.dest(config.dest + 'css'));
+});
+
+gulp.task('html', ['css', 'vendors'], function(){
+    var injectFiles = gulp.src([config.dest + 'css/main.css', config.dest + 'css/vendors.css'])
 
     var injectOptions = {
         addRootSlash: false,
