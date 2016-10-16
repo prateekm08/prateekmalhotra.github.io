@@ -68,8 +68,23 @@ gulp.task('vendors', function(){
         .pipe(gulp.dest(config.dest + 'css'));
 });
 
-gulp.task('html', ['css', 'vendors'], function(){
-    var injectFiles = gulp.src([config.dest + 'css/main.css', config.dest + 'css/vendors.css'])
+gulp.task('js', function() {
+    var jsFiles = ['src/js/*'];
+
+    return gulp.src(plugins.mainBowerFiles().concat(jsFiles))
+        .pipe(plugins.filter('**/*.js'))
+        .pipe(plugins.concat('main.js'))
+        .pipe(gulp.dest(config.dest + 'js'))
+        .pipe(plugins.rename('main.min.js'))
+        .pipe(plugins.uglify())
+        .pipe(gulp.dest(config.dest + 'js'));
+});
+
+gulp.task('html', ['js', 'css', 'vendors'], function(){
+    var injectFiles = gulp.src([
+        config.dest + 'css/main.css',
+        config.dest + 'css/vendors.css',
+        config.dest + 'js/main.min.js'])
 
     var injectOptions = {
         addRootSlash: false,
@@ -81,25 +96,16 @@ gulp.task('html', ['css', 'vendors'], function(){
         .pipe(gulp.dest(config.dest));
 });
 
-gulp.task('js', function() {
-    var jsFiles = ['src/js/*'];
-
-    return gulp.src(plugins.mainBowerFiles().concat(jsFiles))
-        .pipe(plugins.filter('**/*.js'))
-        .pipe(plugins.concat('main.js'))
-        .pipe(plugins.uglify())
-        .pipe(gulp.dest(config.dest + 'js'));
-});
 
 gulp.task('watch', function(){
     // Watch .js files
-    gulp.watch('src/js/*.js', ['js']);
+    gulp.watch('src/**/*.js', ['js']);
 
     // Watch .scss files
-    gulp.watch('src/sass/*.scss', ['css']);
+    gulp.watch('src/**/*.scss', ['css']);
 
     // Watch .html files
     gulp.watch('src/html/*.html', ['html']);
 });
 
-gulp.task('default', ['clean', 'bower', 'css', 'js', 'icons', 'html', 'watch']);
+gulp.task('default', ['clean', 'bower', 'icons', 'html', 'watch']);
