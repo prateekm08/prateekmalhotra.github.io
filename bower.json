@@ -1,0 +1,21 @@
+{
+  "name": "codyaustun",
+  "homepage": "https://github.com/codyaustun/website",
+  "authors": [
+    "Cody A. Coleman <codyaustun@gmail.com>"
+  ],
+  "description": "Cody Coleman's Personal Website",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
