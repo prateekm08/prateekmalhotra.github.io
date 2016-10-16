@@ -86,10 +86,7 @@ gulp.task('html', ['js', 'css', 'vendors'], function(){
         config.dest + 'css/vendors.css',
         config.dest + 'js/main.min.js'])
 
-    var injectOptions = {
-        addRootSlash: false,
-        ignorePath: ['src', 'public']
-    };
+    var injectOptions = {};
 
     return gulp.src('src/html/index.html')
         .pipe(plugins.inject(injectFiles, injectOptions))
