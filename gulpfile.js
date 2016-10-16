@@ -93,7 +93,7 @@ gulp.task('html', ['js', 'css', 'vendors'], function(){
 
     return gulp.src('src/html/index.html')
         .pipe(plugins.inject(injectFiles, injectOptions))
-        .pipe(gulp.dest(config.dest));
+        .pipe(gulp.dest("."));
 });
 
 
