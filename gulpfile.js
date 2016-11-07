@@ -80,6 +80,16 @@ gulp.task('js', function() {
         .pipe(gulp.dest(config.dest + 'js'));
 });
 
+gulp.task('images', function() {
+    var imgFiles = ['src/img/*'];
+
+    return gulp.src(imgFiles)
+        .pipe(plugins.imagemin({
+            progressive: true 
+        }))
+        .pipe(gulp.dest(config.dest + 'img'))
+});
+
 gulp.task('html', ['js', 'css', 'vendors'], function(){
     var injectFiles = gulp.src([
         config.dest + 'css/main.css',
@@ -107,4 +117,4 @@ gulp.task('watch', function(){
     gulp.watch('src/html/*.html', ['html']);
 });
 
-gulp.task('default', ['clean', 'bower', 'icons', 'html', 'watch']);
+gulp.task('default', ['clean', 'bower', 'icons', 'html', 'watch', 'images']);

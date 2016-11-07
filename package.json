@@ -31,5 +31,8 @@
     "gulp-uglify": "^2.0.0",
     "main-bower-files": "^2.13.1",
     "wiredep": "^4.0.0"
+  },
+  "dependencies": {
+    "gulp-imagemin": "^3.1.1"
   }
 }
