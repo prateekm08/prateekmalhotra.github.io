@@ -90,6 +90,15 @@ gulp.task('images', function() {
         .pipe(gulp.dest(config.dest + 'img'))
 });
 
+gulp.task('papers', function() {
+    
+    var paperFiles = ['src/papers/*'];
+
+    return gulp.src(paperFiles)
+        .pipe(gulp.dest(config.dest + 'papers'))
+
+});
+
 gulp.task('html', ['js', 'css', 'vendors'], function(){
     var injectFiles = gulp.src([
         config.dest + 'css/main.css',
@@ -115,6 +124,12 @@ gulp.task('watch', function(){
 
     // Watch .html files
     gulp.watch('src/html/*.html', ['html']);
+
+    // Watch image files
+    gulp.watch('src/img/*', ['images']);
+
+    // Watch papers
+    gulp.watch('src/papers/*', ['papers']);
 });
 
-gulp.task('default', ['clean', 'bower', 'icons', 'html', 'watch', 'images']);
+gulp.task('default', ['bower', 'icons', 'html', 'watch', 'images', 'papers']);
