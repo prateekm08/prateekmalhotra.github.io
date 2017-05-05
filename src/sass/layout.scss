@@ -1,9 +1,5 @@
 $max-main-width: 1000px;
 
-body {
-    padding-top: 70px;
-}
-
 .container {
     max-width: $max-main-width;
 }
@@ -14,6 +10,17 @@ body {
     ul {
         list-style: none;
         padding-left: 0;
+    }
+
+}
+
+#sidebar {
+    h1 {
+        text-align: center;
+    }
+
+    img {
+        max-width: 360px;
     }
 }
 
@@ -36,4 +43,8 @@ body {
     .location {
 
     }
+}
+
+h1 {
+    font-size: 28px;
 }
