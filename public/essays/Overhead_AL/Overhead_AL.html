@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Active Learning on Overhead Imagery Datasets</title>
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+
+<body>
+    <div class="container theme-showcase" role="main" id="main">
+        <div class='row'>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <div>
+                    <div class="page-header" id="active learning overhead">
+                        <h2 align="center">Active Learning on Overhead Imagery Datasets</h2>
+                    </div>
+                    <div align="right">
+                    <i>December 29th, 2020</i>
+                    </div>
+                    <h3 id="introduction">Introduction</h3>
+                    <p style="font-size:1.17em">In the last couple of weeks, I&#39;ve been involved in making active learning usable on real-world problems. Ofcourse, that's easier said than done. If you're unfamiliar with active learning, the <a href="https://en.wikipedia.org/wiki/Active_learning_(machine_learning)">wikipedia page</a> is as good an introduction as any. If you want to dig deeper, I recommend this <a href="https://jacobgil.github.io/deeplearning/activelearning#deep-bayesian-active-learning-with-image-data">blogpost</a> by Jacob Gildenblat - that should be enough to give you a solid understanding of what's happening here. If you're more curious, we at <a href="https://alectio.com">Alectio</a> are doing some fantastic things in this space so be sure to follow us on <a href="https://medium.com/alectio">Medium</a>.</p>
+
+                    <p style="font-size:1.17em">The purpose of this short essay is to draw insights from my experiments on two Open Source datasets dealing with ariel imagery. <a href="http://xviewdataset.org">xView</a>, the first one, deals with object detection of more than 60 classes while the second, <a href="https://spacenet.ai/spacenet-buildings-dataset-v1/">SpaceNet Challenge I</a>, is a semantic segmentation task to detect buildings. While SpaceNet is a little bigger in size (4500+ images), xView only consists of 846 images which makes it a more challenging task.</p>
+
+                    <br /> 
+
+                    <figure>
+                        <img src='imgs/xView_sample.png' height='250' width='305' style="float:left"/>
+                        <img src='imgs/SpaceNet_sample.png' height='250' width='305'style="float:left"/>
+                        <figcaption style="color:gray" align="center"><i>Figure 1: A sample of the datasets: xView (left) compared with SpaceNet (right)</i></figcaption>
+                    </figure>
+
+                    <h3 id="setup">Setup</h3>
+                    <p style="font-size:1.17em">For the sake of simplicity, I've stuck to the following uncertainty-based query strategies: <b>minimum margin</b>, <b>least confidence</b>, <b>highest entropy</b>, and <b>random</b>. The simple goal here is to beat the <b>random</b> query strategy. If you're unfamiliar with the above mentioned methods of choosing data, you can refer to this excellent <a href="http://www.burrsettles.com/pub/settles.activelearning.pdf">literature survery</a> on some of the more common methods. If you're interested in knowing what model-specific hyper-parameters I ended up using, you can find my code <a href="https://github.com/alectio/AlectioSDK/tree/master/examples">here</a>.</p>
+
+                    <div id="list">
+                      <ul>
+                        <li><p style="font-size:1.17em">For the xView dataset, I used 7 loops with 100 records per loop <i>(700 images)</i>. The remaining 146 images were used for comparing our query strategies. </p></li>
+                        <li><p style="font-size:1.17em">For SpaceNet, I used 10 loops with 450 records per loop <i>(4500 / 4858 images)</i>. 1388 images were used for testing our strategies.</p></li>
+                      </ul>
+                    </div>
+
+                    <p style="font-size:1.17em">There's also two versions to the <b>xView demo</b>. The first one, marked <b>v1</b> from here on out, uses all 60 classes as is. The second version, marked <b>v2</b>, identifies super-classes and reduces the class count to 6. For example in <b>v1</b> there are 5 different kinds of trains and they're treated as different classes but in <b>v2</b> we club them all together. The only reason for this distinction into two versions is that the task is inherently hard and it is in the interest of a fair comparison that the problem be simplified.</p>
+
+                    <p style="font-size:1.17em">Further motivation for taking this step can be gathered from this <a href="https://medium.com/picterra/the-xview-dataset-and-baseline-results-5ab4a1d0f47f">in-depth analysis</a> of the dataset.</p>
+
+                    <h3 id="res">Results</h3>
+                    <p style="font-size:1.17em">First, the <b>xView [v1]</b> dataset.</p>
+
+                    <figure>
+                        <img src='imgs/xView_v1_results.png' height='250' width='400' style="float:left"/>
+                        <img src='imgs/xView_v1_legend.png' height='70' width='230' style="margin-top:20%;margin-bottom:10%"/>
+                        <figcaption style="color:gray" align="center"><i>Figure 2: Results on the original xView dataset. The Y axis is the mAP score (x100) while the X axis denotes the number of records selected</i></figcaption>
+                    </figure>
+
+                    <br /> 
+
+                    <p style="font-size:1.17em">The result above is quite good. It tells us that <b>high entropy</b> based labeling of 300 records roughly equals <b>random</b> labeling of 700 records. Considering that this is for a dataset with 1 million+ annotations, on average we're looking at savings of more than 470,000 bounding boxes. That's <i>a lot</i> of bounding boxes.</p>
+
+                    <p style="font-size:1.17em">Next up, <b>xView [v2]</b>.</p>
+
+                    <figure>
+                        <img src='imgs/xView_v2_results.png' height='250' width='400' style="float:left"/>
+                        <img src='imgs/xView_v2_legend.png' height='70' width='230' style="margin-top:20%;margin-bottom:10%"/>
+                        <figcaption style="color:gray" align="center"><i>Figure 3: Results on the simplified xView dataset. The Y axis is the mAP score (x100) while the X axis denotes the number of records selected</i></figcaption>
+                    </figure>
+
+                    <br /> 
+
+                    <p style="font-size:1.17em">Beware that the legend has changed in <i>Figure 3</i>. What we see here is that <b>high entropy</b> converges after just 200 records and is only surpassed by selecting 500 records using the <b>least confidence</b> query strategy. So even with an easier problem setup, we conclusively surpass random performance. Depending on your budget and desired level of performance, you should work towards identifying a tradeoff in such a scenario. Is it <i>really</i> worth labeling more than 350,000 objects for that 0.009 improvement in the mAP score is the question.</p>
+
+                    <p style="font-size:1.17em">Let's turn our attention to <b>SpaceNet</b> now.
+
+                    <br /> 
+
+                   <p style="font-size:1.17em">< TO BE CONTINUED ></p>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
