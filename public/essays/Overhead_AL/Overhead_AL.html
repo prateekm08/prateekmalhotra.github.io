@@ -71,15 +71,36 @@
 
                     <p style="font-size:1.17em">Beware that the legend has changed in <i>Figure 3</i>. What we see here is that <b>high entropy</b> converges after just 200 records and is only surpassed by selecting 500 records using the <b>least confidence</b> query strategy. So even with an easier problem setup, we conclusively surpass random performance. Depending on your budget and desired level of performance, you should work towards identifying a tradeoff in such a scenario. Is it <i>really</i> worth labeling more than 350,000 objects for that 0.009 improvement in the mAP score is the question.</p>
 
-                    <p style="font-size:1.17em">Let's turn our attention to <b>SpaceNet</b> now.
+                    <p style="font-size:1.17em">Let's turn our attention to <b>SpaceNet</b> now.</p>
 
                     <br /> 
 
-                   <p style="font-size:1.17em">< TO BE CONTINUED ></p>
+                    <figure align="left">
+                        <img src='imgs/SpaceNet_pixel_accuracy.png' height='250' width='400'/>
+                        <img src='imgs/SpaceNet_mean_iou.png' height='250' width='400'/>
+                        <img src='imgs/SpaceNet_freqw_acc.png' height='250' width='400'/>
+                        <figcaption style="color:gray" align="center"><i>Figure 3: Results on the simplified SpaceNet dataset. The Y axis is the metric score while the X axis denotes the number of loops</i></figcaption>
+                    </figure>
 
+                    <br /> 
+                   
+                   <p style="font-size:1.17em">The active-learning based improvements on this new dataset are a little harder to see and that's because the regular training loop converges very quickly (even without any pretraining). The first metric noted above, <b>pixel accuracy</b> is a little irrelevant in this dataset that contains only two classes: <i>building</i> and <i>background</i>. Since most pixels are background, a model that just outputs zero tensors also achieves a score greater than 0.9. Looking ahead at <b>mean iou</b>, things get a little more interesting. Here we see that the best performing <b>random</b> model at loop 8 performs a little worse than <b>least margin</b> at loop 3. Hence, going by this techique, we would save labeling on 2250 images.</p>
+
+                    <p style="font-size:1.17em">Furthermore, <b>least confident</b> in the above diagram consistently beats <b>random</b> until loop 7 in all three metrics. Loop 2 with the former beats the latter in all three cases until loop 7. That's again 2250 records that we would save on labeling. To understand how much <b style="color:green">$$$</b> we can save, we can take a look at this <a href="https://cloud.google.com/ai-platform/data-labeling/pricing">chart</a> by Google cloud.</p>
+
+                    <figure align="left">
+                        <img src='imgs/labeling_cost.png' height='450' width='660'/>                        
+                        <figcaption style="color:gray" align="center"><i>Figure 4: Google Cloud labeling pricing. It's among the lowest in the industry.</i></figcaption>
+                    </figure>
                 </div>
+
+                <h3 id="conc">Conclusion</h3>
+                <p style="font-size:1.17em">Using a larger dataset will, almost always, result in a performance improvement but the cost can be particulary large when the labeling is to be done by an expert. Making active learning a standard practice in the industry would lead to faster deployment of new datasets along with incredible cost savings even in challenging problem domains (as illustrated by this post).</p>
+
+                <p style="font-size:1.17em">Thank you for reading! If you have any further questions regarding this post, feel free to contact me at prateekmalhotra [at] ucla [dot] edu.</p>
+
             </div>
-            <div class="col-md-2">
+                <div class="col-md-2">
             </div>
         </div>
     </div>
